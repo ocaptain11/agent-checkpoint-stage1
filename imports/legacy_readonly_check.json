@@ -1,0 +1,48 @@
+{
+  "schema_version": "legacy-readonly-check-v1",
+  "checked_at": "2026-10-08T18:03:00+08:00",
+  "source_path": "C:\\Users\\26793\\agent-checkpoint",
+  "intended_remote_source_path": "/fact_home/yishi/agent-checkpoint",
+  "target_project_path": "C:\\Users\\26793\\agent-checkpoint\\agent-checkpoint-stage1",
+  "read_only_method": [
+    "directory listing",
+    "file metadata listing",
+    "SHA-256 hashing of explicitly listed candidate files",
+    "git metadata probe"
+  ],
+  "write_performed_on_legacy": false,
+  "git_repository_detected": false,
+  "git_probe_result": "fatal: not a git repository (or any of the parent directories): .git",
+  "parent_directory_access": "denied_by_managed_workspace",
+  "sibling_stage1_access_before_creation": "not_present_and_parent_not_listable",
+  "observed_top_level_entries": [
+    ".pytest_cache",
+    "configs",
+    "data",
+    "docs",
+    "experiments",
+    "external",
+    "provenance_framework",
+    "results",
+    "scripts",
+    "src",
+    "tests",
+    ".gitignore",
+    "ORACLE_EXPERIMENT_PLAN.md",
+    "PROVENANCE_DESIGN.md",
+    "pyproject.toml",
+    "README.md"
+  ],
+  "hashes": "See imports/import_manifest.json: inspected_sources. No candidate was copied.",
+  "prohibited_materials_not_imported": [
+    "results/",
+    "historical reports",
+    "replay-history oracle outputs",
+    "synthetic workload conclusions",
+    "historical coverage or UNKNOWN numbers"
+  ],
+  "limitations": [
+    "The managed workspace does not expose the remote host path or a writable sibling directory.",
+    "Remote hostname, user, permissions, and actual git revision require the SSH audit before imports are finalized."
+  ]
+}
