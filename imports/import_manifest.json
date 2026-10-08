@@ -1,0 +1,106 @@
+{
+  "schema_version": "stage1-import-manifest-v1",
+  "project": {
+    "name": "agent-checkpoint-stage1",
+    "intended_remote_root": "/fact_home/yishi/agent-checkpoint-stage1",
+    "local_root": "C:\\Users\\26793\\agent-checkpoint\\agent-checkpoint-stage1",
+    "legacy_local_root": "C:\\Users\\26793\\agent-checkpoint",
+    "legacy_remote_root": "/fact_home/yishi/agent-checkpoint",
+    "initialized_at": "2026-10-08T00:00:00+08:00",
+    "source_revision": null,
+    "source_revision_note": "The exposed legacy directory has no .git metadata; revision must be resolved before any code import."
+  },
+  "policy": {
+    "legacy_read_only": true,
+    "copy_history_results": false,
+    "copy_replay_history_oracle": false,
+    "copy_synthetic_conclusions": false,
+    "runtime_dependency_on_legacy": false,
+    "shared_writable_cache": false,
+    "require_sha256_for_import": true,
+    "require_version_or_commit_for_import": true
+  },
+  "imports": [],
+  "inspected_sources": [
+    {
+      "source_path": "C:\\Users\\26793\\agent-checkpoint\\README.md",
+      "remote_source_path": "/fact_home/yishi/agent-checkpoint/README.md",
+      "status": "inspected_only",
+      "copied": false,
+      "version_or_commit": null,
+      "sha256": "d5771384bebb9754ca2fd48330606b73e89009a27239f99a81468e1bd99cf822",
+      "bytes": 4147,
+      "purpose": "Read-only orientation; not a runtime dependency."
+    },
+    {
+      "source_path": "C:\\Users\\26793\\agent-checkpoint\\pyproject.toml",
+      "remote_source_path": "/fact_home/yishi/agent-checkpoint/pyproject.toml",
+      "status": "inspected_only",
+      "copied": false,
+      "version_or_commit": null,
+      "sha256": "dd26ad40c609b23b827d8756a8cd0355edcb6d07428d49f9dea5ebbafbf655b0",
+      "bytes": 497,
+      "purpose": "Read-only dependency orientation; not accepted as the Stage 1 environment."
+    },
+    {
+      "source_path": "C:\\Users\\26793\\agent-checkpoint\\scripts\\collect_checkpoints.py",
+      "remote_source_path": "/fact_home/yishi/agent-checkpoint/scripts/collect_checkpoints.py",
+      "status": "inspected_only",
+      "copied": false,
+      "version_or_commit": null,
+      "sha256": "51cf5b15541ca809115cda017bd2de16de25b2916a1190b90270eca2a03cbb48",
+      "bytes": 1552,
+      "purpose": "Read-only candidate review; no implementation imported until Firecracker/OpenHands compatibility is verified."
+    },
+    {
+      "source_path": "C:\\Users\\26793\\agent-checkpoint\\scripts\\run_oracle_study.py",
+      "remote_source_path": "/fact_home/yishi/agent-checkpoint/scripts/run_oracle_study.py",
+      "status": "inspected_only",
+      "copied": false,
+      "version_or_commit": null,
+      "sha256": "69c2d75139a2daeed57b3f3578d697866e85474d079c2f53b3e4cf326f38ae64",
+      "bytes": 3996,
+      "purpose": "Read-only candidate review; not a Stage 1 result or runtime dependency."
+    },
+    {
+      "source_path": "C:\\Users\\26793\\agent-checkpoint\\configs\\experiments\\p0_oracle.json",
+      "remote_source_path": "/fact_home/yishi/agent-checkpoint/configs/experiments/p0_oracle.json",
+      "status": "inspected_only",
+      "copied": false,
+      "version_or_commit": null,
+      "sha256": "9d530c558504f23223916a316a7f2791e7ff7cbb575f5859ff1243d84fcd6fb2",
+      "bytes": 506,
+      "purpose": "Read-only configuration review; not adopted as the pre-registered Stage 1 task manifest."
+    }
+  ],
+  "forbidden_source_classes": [
+    "legacy results or historical experiment reports",
+    "replay-history oracle outputs",
+    "synthetic workload conclusions",
+    "historical provenance coverage or UNKNOWN numbers",
+    "unverified benchmark/evaluator artifacts",
+    "gold patches injected into Agent guest state"
+  ],
+  "pending_imports": [
+    {
+      "name": "SWE-bench Verified data and evaluator",
+      "status": "pending_remote_verification",
+      "required_record": ["official source URL/path", "dataset version", "commit or SHA256", "license", "dependency lock", "purpose"]
+    },
+    {
+      "name": "Firecracker baseline configuration and guest image",
+      "status": "pending_remote_verification",
+      "required_record": ["binary version", "kernel/rootfs hashes", "config hash", "host /dev/kvm and network checks", "purpose"]
+    },
+    {
+      "name": "OpenHands interfaces",
+      "status": "pending_remote_verification",
+      "required_record": ["git commit", "package lock", "tool executor path", "API compatibility check", "purpose"]
+    },
+    {
+      "name": "DSBench Modeling workload",
+      "status": "pending_evaluator_and_data_verification",
+      "required_record": ["task IDs", "data/labels hash", "official metric", "evaluator revision", "dependencies", "purpose"]
+    }
+  ]
+}
