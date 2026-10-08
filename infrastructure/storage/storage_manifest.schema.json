@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stage1.invalid/schemas/storage_manifest.schema.json",
+  "title": "Stage 1 storage inventory",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project", "generated_at_utc", "storage_roots", "records"],
+  "properties": {
+    "schema_version": {"const": "stage1-storage-manifest-v1"},
+    "project": {"const": "agent-checkpoint-stage1"},
+    "generated_at_utc": {"type": "string", "format": "date-time"},
+    "storage_roots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["HOME", "FACT_DATA", "SCRATCH"],
+      "properties": {
+        "HOME": {"$ref": "#/$defs/storage_root"},
+        "FACT_DATA": {"$ref": "#/$defs/storage_root"},
+        "SCRATCH": {"$ref": "#/$defs/storage_root"}
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/record"}
+    }
+  },
+  "$defs": {
+    "storage_root": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "purpose"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "purpose": {"type": "string", "minLength": 1}
+      }
+    },
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id", "storage_class", "path", "kind", "regenerable",
+        "persistence_status", "verification"
+      ],
+      "properties": {
+        "artifact_id": {"type": "string", "minLength": 1},
+        "storage_class": {"enum": ["HOME", "FACT_DATA", "SCRATCH"]},
+        "path": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["source", "environment", "model", "cache", "evidence", "manifest", "log", "temporary"]},
+        "bytes": {"type": ["integer", "null"], "minimum": 0},
+        "sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "tree_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+        "config_hash": {"type": ["string", "null"]},
+        "regenerable": {"type": "boolean"},
+        "rebuild_steps": {"type": "array", "items": {"type": "string"}},
+        "user": {"type": ["string", "null"]},
+        "node": {"type": ["string", "null"]},
+        "job_id": {"type": ["string", "null"]},
+        "created_at_utc": {"type": ["string", "null"], "format": "date-time"},
+        "versions": {"type": "object"},
+        "persistence_status": {"enum": ["NOT_REQUIRED", "PENDING", "STAGED", "VERIFIED", "FAILED"]},
+        "verification": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["method", "status", "verified_at_utc"],
+          "properties": {
+            "method": {"type": "string"},
+            "status": {"enum": ["NOT_RUN", "VERIFIED", "FAILED"]},
+            "verified_at_utc": {"type": ["string", "null"], "format": "date-time"}
+          }
+        },
+        "failure": {
+          "type": ["object", "null"],
+          "properties": {
+            "type": {"type": "string"},
+            "exit_code": {"type": ["integer", "null"]},
+            "raw_log_path": {"type": ["string", "null"]}
+          },
+          "required": ["type", "exit_code", "raw_log_path"]
+        },
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

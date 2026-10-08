@@ -1,0 +1,68 @@
+RUNTIME TRANSCRIPT (read-only, 2026-10-08)
+===========================================
+
+MANTIS (login host)
+-------------------
+hostname=mantis; nproc=16; free -h reported total 125Gi, used 12Gi, free
+93Gi, available 112Gi.
+`command -v nvidia-smi` -> no result; `nvidia-smi` exit 127:
+zsh: command not found: nvidia-smi
+`/dev/kvm`:
+crw-rw-rw- 1 root kvm 10,232
+Access mode 0666; `lsmod` showed `kvm_intel` and `kvm`.
+Firecracker was not on PATH. Read-only search found:
+/fact_home/yishi/agent-checkpoint/firecracker-test/release-v1.17.0-x86_64/firecracker-v1.17.0-x86_64
+Executing that binary with `--version` returned `Firecracker v1.17.0`, exit 0.
+
+INFINITE-FRONTIER (compute host)
+---------------------------------
+hostname=infinite-frontier; nproc=112; free -h reported total 754Gi, used
+381Gi, free 128Gi, available 373Gi.
+`nvidia-smi` exit 0 reported driver/KMD 610.43.02, CUDA UMD 13.3 and four
+NVIDIA L20 GPUs. Query output at audit time:
+NVIDIA L20, 610.43.02, 46068 MiB, 11255 MiB, 8 %
+NVIDIA L20, 610.43.02, 46068 MiB, 7435 MiB, 1 %
+NVIDIA L20, 610.43.02, 46068 MiB, 0 MiB, 0 %
+NVIDIA L20, 610.43.02, 46068 MiB, 0 MiB, 0 %
+The full table showed GPU 0 process PID 4093072 using 11237MiB and GPU 1
+processes PID 4109514/4109954 using 1453/5964MiB; this was an observation only.
+`command -v nvcc` failed (exit 1); no CUDA compiler was installed on PATH.
+`/dev/kvm`:
+crw-rw-rw- 1 root kvm 10,232
+Access mode 0666; `lsmod` showed `kvm_intel 528384` and `kvm 1413120`.
+The same old-project Firecracker path executed successfully:
+Firecracker v1.17.0
+2026-10-08T18:47:05... Firecracker exiting successfully. exit_code=0
+
+PYTHON/ENVIRONMENT CHECKS
+-------------------------
+System Python on infinite-frontier: Python 3.9.25; system imports for OpenHands
+and vLLM were missing. `conda env list` included:
+agent-checkpoint -> /fact_home/yishi/.conda/envs/agent-checkpoint
+astropy__astropy__5.0, astropy__astropy__5.1, e2b-2291, e2b-compat,
+vllm-agent-clean -> /fact_home/yishi/.conda/envs/vllm-agent-clean, base=/usr.
+
+`/fact_home/yishi/.conda/envs/agent-checkpoint/bin/python -m pip list` filter:
+numpy 2.4.4
+openhands-agent-server 1.34.0
+openhands-ai 1.11.0
+openhands-sdk 1.34.0
+openhands-tools 1.34.0
+Import checks in that environment: `openhands`, `openhands.sdk`,
+`openhands.sdk.agent`, and `openhands.tools` -> True; importing printed the
+OpenHands SDK v1.34.0 banner. `openhands.core` and `openhands_ai` module names
+were absent.
+
+`/fact_home/yishi/.conda/envs/vllm-agent-clean/bin/python -m pip list` filter:
+numpy 2.1.3
+torch 2.6.0
+torchaudio 2.6.0
+torchcodec 0.16.0
+torchvision 0.21.0
+transformers 4.51.3
+vllm 0.8.3
+
+The e2b-compat environment had none of the queried OpenHands/vLLM/Torch/
+Transformers/NumPy/Pandas distributions. This is evidence that the serving and
+agent environments must be selected explicitly rather than relying on system
+PATH.

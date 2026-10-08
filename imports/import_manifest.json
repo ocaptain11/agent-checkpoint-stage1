@@ -21,6 +21,38 @@
     "require_version_or_commit_for_import": true
   },
   "imports": [],
+  "benchmark_source_audits": [
+    {
+      "name": "SWE-bench Verified test parquet",
+      "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified/resolve/c104f840cc67f8b6eec6f759ebc8b2693d585d4a/data/test-00000-of-00001.parquet",
+      "version_or_commit": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+      "sha256": "a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd",
+      "bytes": 2096679,
+      "copied": false,
+      "status": "audited_remote_only",
+      "purpose": "Pin the formal SWE-bench Verified task universe without making the old project a runtime dependency."
+    },
+    {
+      "name": "DSBench Modeling catalog",
+      "source_url": "https://raw.githubusercontent.com/LiqiangJing/DSBench/ba786096137a5108af11c016ad3f09cdb97beefd/data_modeling/data.json",
+      "version_or_commit": "ba786096137a5108af11c016ad3f09cdb97beefd",
+      "sha256": "3b4e70456096d12472115f3d8faabef6b7f9c89c82d0a792a3ed7b8ba02d5596",
+      "bytes": 10879,
+      "copied": false,
+      "status": "audited_remote_only",
+      "purpose": "Pin the official 74-entry DSBench Modeling catalog and pre-register task names; no task data or labels copied."
+    },
+    {
+      "name": "DSBench Modeling processed archive metadata",
+      "source_url": "https://huggingface.co/datasets/liqiang888/DSBench/resolve/1196d6553ec200e1262841efc89cda5954ffe89f/data_modeling/data.zip",
+      "version_or_commit": "1196d6553ec200e1262841efc89cda5954ffe89f",
+      "sha256": null,
+      "bytes": 3126493713,
+      "copied": false,
+      "status": "blocked_not_downloaded",
+      "purpose": "Record the official archive size and blocking evidence; labels and data remain unverified."
+    }
+  ],
   "inspected_sources": [
     {
       "source_path": "C:\\Users\\26793\\agent-checkpoint\\README.md",

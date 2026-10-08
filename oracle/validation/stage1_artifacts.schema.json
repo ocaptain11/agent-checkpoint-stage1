@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agent-checkpoint-stage1.local/schema/stage1-artifacts.schema.json",
+  "title": "Semantic Agent Checkpointing Stage 1 artifact catalog",
+  "description": "Machine-readable contract for evidence consumed by the independent validator. Extra fields are permitted, but gate-critical fields must be explicit.",
+  "type": "object",
+  "required": ["artifacts"],
+  "properties": {
+    "artifacts": {
+      "type": "object",
+      "required": [
+        "environment_manifest.json",
+        "benchmark_manifest.json",
+        "experiment_manifest.json",
+        "mapping_report.json",
+        "state_census.json",
+        "mutation_results.json",
+        "evaluation_results.json",
+        "storage_ram_report.json",
+        "failure_log.json"
+      ],
+      "additionalProperties": {"type": "object"}
+    },
+    "status_vocabulary": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "VALID_PASS",
+          "VALID_NEGATIVE",
+          "INCONCLUSIVE",
+          "INVALID_INFRA",
+          "NOT_TESTED",
+          "UNKNOWN"
+        ]
+      },
+      "default": [
+        "VALID_PASS",
+        "VALID_NEGATIVE",
+        "INCONCLUSIVE",
+        "INVALID_INFRA",
+        "NOT_TESTED",
+        "UNKNOWN"
+      ]
+    }
+  },
+  "$defs": {
+    "gateResult": {
+      "type": "object",
+      "required": ["gate", "status", "reasons", "evidence"],
+      "properties": {
+        "gate": {"enum": ["G0_PILOT_E2E", "G1_PRISTINE_FRESH_RESTORE", "G2_NATIVE_MAPPING", "G3_MUTATION_INTEGRITY", "G4_PAIRED_CONTINUATION_EVALUATION", "G5_ACCOUNTING_RECOMPUTATION"]},
+        "status": {"enum": ["VALID_PASS", "VALID_NEGATIVE", "INCONCLUSIVE", "INVALID_INFRA", "NOT_TESTED", "UNKNOWN"]},
+        "reasons": {"type": "array", "items": {"type": "string"}},
+        "evidence": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "pilotEvidence": {
+      "type": "object",
+      "required": [
+        "openhands_started",
+        "vllm_started",
+        "firecracker_started",
+        "guest_tool_execution",
+        "checkpoint_created",
+        "fresh_restore",
+        "original_vmm_terminated",
+        "host_prefix_restored",
+        "tool_reconnected",
+        "autonomous_continuation",
+        "official_evaluator",
+        "guest_actions",
+        "continuation_actions",
+        "checkpoint_artifacts",
+        "evaluator_result_file"
+      ],
+      "properties": {
+        "status": {"enum": ["PILOT_PASS", "PASS", "NOT_TESTED", "INVALID_INFRA"]},
+        "manual_replay": {"const": false},
+        "guest_fallback": {"const": false},
+        "gold_patch_injected": {"const": false},
+        "guest_actions": {"type": "array", "minItems": 1},
+        "continuation_actions": {"type": "array", "minItems": 1},
+        "checkpoint_artifacts": {"type": "array", "minItems": 3},
+        "evaluator_result_file": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    }
+  }
+}

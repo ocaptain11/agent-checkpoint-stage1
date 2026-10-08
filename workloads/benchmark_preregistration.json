@@ -1,0 +1,169 @@
+{
+  "schema_version": "stage1-benchmark-preregistration-v1",
+  "protocol_id": "stage1-real-agent-oracle-2026-10-08",
+  "frozen_at": "2026-10-08",
+  "selection_policy": {
+    "frozen_before_formal_runs": true,
+    "selection_may_use_success_rate": false,
+    "selection_may_use_semantic_opportunity": false,
+    "swebench": "Use the six repository names with the smallest SHA-256 of stage1-swe-repo-v1:<repo> among the 12 repositories present in the pinned test split. Within each selected repository, choose the instance with the smallest SHA-256 of stage1-swe-v1:<instance_id>. This gives one task per repository and forces Astropy inclusion by protocol requirement; no result, patch outcome, checkpoint content, or opportunity estimate is inspected.",
+    "dsbench": "Use the six predeclared competition names below. The list was fixed from the pinned DSBench modeling catalog before data download. It is a metric- and workload-diversity stratum (classification accuracy, regression RMSLE/RMSE/MAE, and sequence F1), not a result- or opportunity-based filter. If any qualification check fails, retain the task as BLOCKED/NOT_TESTED rather than replacing it."
+  },
+  "budgets": {
+    "swebench_tasks": 6,
+    "dsbench_tasks": 6,
+    "max_checkpoints_total": 24,
+    "max_checkpoints_per_task": 2,
+    "checkpoint_labels": ["TOOL_IDLE", "TOOL_ACTIVE"],
+    "pristine_controls_per_qualified_checkpoint": 2,
+    "initial_mutation_treatments_per_checkpoint": 4,
+    "pilot_excluded_from_formal_totals": true
+  },
+  "swebench": {
+    "status": "PRE_REGISTERED_PENDING_RUNTIME_QUALIFICATION",
+    "dataset": {
+      "id": "princeton-nlp/SWE-bench_Verified",
+      "split": "test",
+      "revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+      "parquet_sha256": "a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd",
+      "download_size_bytes": 2096679,
+      "decoded_dataset_size_bytes": 7779763,
+      "url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified",
+      "size_rows": 500,
+      "schema_fields": ["repo", "instance_id", "base_commit", "patch", "test_patch", "problem_statement", "hints_text", "created_at", "version", "FAIL_TO_PASS", "PASS_TO_PASS", "environment_setup_commit", "difficulty"]
+    },
+    "official_evaluator": {
+      "repository": "SWE-bench/SWE-bench",
+      "revision": "02e7a74ffd0b707aab73d203fe87bdc7c76afc8e",
+      "entrypoint": "swebench.harness.run_evaluation",
+      "source_url": "https://github.com/SWE-bench/SWE-bench/tree/02e7a74ffd0b707aab73d203fe87bdc7c76afc8e",
+      "required_outputs": ["resolved", "FAIL_TO_PASS", "PASS_TO_PASS", "patch validity", "tool errors", "continuation evidence"],
+      "cache_rule": "Every branch gets a unique run_id; the official harness caches by run_id and instance_id. A changed prediction must never reuse a run_id."
+    },
+    "repository_universe_counts": {
+      "astropy/astropy": 22,
+      "django/django": 231,
+      "matplotlib/matplotlib": 34,
+      "mwaskom/seaborn": 2,
+      "pallets/flask": 1,
+      "psf/requests": 8,
+      "pydata/xarray": 22,
+      "pylint-dev/pylint": 10,
+      "pytest-dev/pytest": 19,
+      "scikit-learn/scikit-learn": 32,
+      "sphinx-doc/sphinx": 44,
+      "sympy/sympy": 75
+    },
+    "tasks": [
+      {
+        "repo": "pallets/flask",
+        "repository_selection_key_sha256": "1a0f10c79d0ca17b807589bcc3d514e6aef863b5a0f6d3d484b77858a37842e9",
+        "instance_id": "pallets__flask-5014",
+        "base_commit": "7ee9ceb71e868944a46e1ff00b506772a53a4f1d",
+        "dataset_version": "1.3",
+        "difficulty": "<15 min fix",
+        "selection_key_sha256": "08dac1f314ee12a152fd56598bc7b8cb7aac244e4a1ea38484f3730dce05181e",
+        "qualification": "PENDING"
+      },
+      {
+        "repo": "matplotlib/matplotlib",
+        "repository_selection_key_sha256": "320fe53ea5514e474768ef33ef04007dc8df0223ad810b74e03c5483d1363ae1",
+        "instance_id": "matplotlib__matplotlib-14623",
+        "base_commit": "d65c9ca20ddf81ef91199e6d819f9d3506ef477c",
+        "dataset_version": "3.1",
+        "difficulty": "15 min - 1 hour",
+        "selection_key_sha256": "0a99ac2f99233c4612e9916fe477cd306f0ef22866ae07449c2be4c1d676c13d",
+        "qualification": "PENDING"
+      },
+      {
+        "repo": "pytest-dev/pytest",
+        "repository_selection_key_sha256": "46ede85ab2aa06ef1330215561c1ac6a79c5b1ece1726f4c635e53b685c7fc75",
+        "instance_id": "pytest-dev__pytest-5631",
+        "base_commit": "cb828ebe70b4fa35cd5f9a7ee024272237eab351",
+        "dataset_version": "5.0",
+        "difficulty": "15 min - 1 hour",
+        "selection_key_sha256": "0af8f5b7f8f8b637d99ae903a2aac8568b4fda468dcea8cab05b8b3009f91958",
+        "qualification": "PENDING"
+      },
+      {
+        "repo": "astropy/astropy",
+        "repository_selection_key_sha256": "47205c04b44da8a10cac5763e802592da0ff4f3c5ca57d081c37cebc00c87ca8",
+        "instance_id": "astropy__astropy-7336",
+        "base_commit": "732d89c2940156bdc0e200bb36dc38b5e424bcba",
+        "dataset_version": "1.3",
+        "difficulty": "<15 min fix",
+        "selection_key_sha256": "02ee20100246fcf8e547ba831e6a3550b9e60fa473d721d9a1b2b5e866e36850",
+        "qualification": "PENDING"
+      },
+      {
+        "repo": "sphinx-doc/sphinx",
+        "repository_selection_key_sha256": "7dbf33d5f4714c24ebb9daf6797a34b334dc34d786cdb105f6838971552c8038",
+        "instance_id": "sphinx-doc__sphinx-8056",
+        "base_commit": "e188d56ed1248dead58f3f8018c0e9a3f99193f7",
+        "dataset_version": "3.2",
+        "difficulty": "15 min - 1 hour",
+        "selection_key_sha256": "075b10999ef7af7ad68f5956e0c6943df2fd915b3beddde33547ce687cda9081",
+        "qualification": "PENDING"
+      },
+      {
+        "repo": "pydata/xarray",
+        "repository_selection_key_sha256": "9b2d717be2acd498116e862be16d8b992c4c0a79a55eb5ba5845a96903072fb5",
+        "instance_id": "pydata__xarray-2905",
+        "base_commit": "7c4e2ac83f7b4306296ff9b7b51aaf016e5ad614",
+        "dataset_version": "0.12",
+        "difficulty": "15 min - 1 hour",
+        "selection_key_sha256": "0920bef37418f3594684bd745f2e27037e74629d83c20ea20bfb11e77814a127",
+        "qualification": "PENDING"
+      }
+    ],
+    "exclusions": {
+      "rule": "All other instances are excluded solely because the six-repository/one-instance-per-repository rule fixes the sample size; no task is removed after observing success, failure, state census, or semantic opportunity.",
+      "not_selected_repositories": ["django/django", "mwaskom/seaborn", "pylint-dev/pylint", "psf/requests", "scikit-learn/scikit-learn", "sympy/sympy"]
+    }
+  },
+  "dsbench_modeling": {
+    "status": "BLOCKED_PENDING_DATA_LABEL_DEPENDENCY_VERIFICATION",
+    "official_source": {
+      "repository": "LiqiangJing/DSBench",
+      "revision": "ba786096137a5108af11c016ad3f09cdb97beefd",
+      "catalog_path": "data_modeling/data.json",
+      "catalog_sha256": "3b4e70456096d12472115f3d8faabef6b7f9c89c82d0a792a3ed7b8ba02d5596",
+      "dataset_mirror": "liqiang888/DSBench",
+      "dataset_mirror_revision": "1196d6553ec200e1262841efc89cda5954ffe89f",
+      "processed_data_path": "data_modeling/data.zip",
+      "processed_data_size_bytes": 3126493713,
+      "processed_data_x_linked_etag": "bed0c7b202389597aadbbc1f8769f459119c1a662c3e11905c4ae05825876087",
+      "catalog_and_evaluator_url": "https://github.com/LiqiangJing/DSBench/tree/ba786096137a5108af11c016ad3f09cdb97beefd/data_modeling"
+    },
+    "official_evaluator_contract": {
+      "entrypoint_pattern": "data_modeling/evaluation/<competition>_eval.py",
+      "interface": ["--path", "--name", "--answer_file", "--predict_file", "--value"],
+      "output": "<path>/<name>/result.txt",
+      "metric_is_task_specific": true
+    },
+    "tasks": [
+      {"name": "titanic", "metric": "accuracy", "target_column": "Survived", "catalog_size": "93.08 kB", "evaluator": "data_modeling/evaluation/titanic_eval.py", "qualification": "BLOCKED"},
+      {"name": "bike-sharing-demand", "metric": "RMSLE", "target_column": "count", "catalog_size": "1.12 MB", "evaluator": "data_modeling/evaluation/bike-sharing-demand_eval.py", "qualification": "BLOCKED"},
+      {"name": "commonlitreadabilityprize", "metric": "RMSE", "target_column": "target", "catalog_size": "2.93 MB", "evaluator": "data_modeling/evaluation/commonlitreadabilityprize_eval.py", "qualification": "BLOCKED"},
+      {"name": "liverpool-ion-switching", "metric": "macro-F1", "target_column": "open_channels", "catalog_size": "146.08 MB", "evaluator": "data_modeling/evaluation/liverpool-ion-switching_eval.py", "qualification": "BLOCKED"},
+      {"name": "spaceship-titanic", "metric": "accuracy", "target_column": "Transported", "catalog_size": "1.24 MB", "evaluator": "data_modeling/evaluation/spaceship-titanic_eval.py", "qualification": "BLOCKED"},
+      {"name": "ventilator-pressure-prediction", "metric": "MAE", "target_column": "pressure", "catalog_size": "698.79 MB", "evaluator": "data_modeling/evaluation/ventilator-pressure-prediction_eval.py", "qualification": "BLOCKED"}
+    ],
+    "qualification_gates": [
+      "Download or otherwise obtain the exact task data and labels, recording a SHA-256.",
+      "Verify the evaluator dependencies in the actual Guest image (at minimum pandas, NumPy, and task-specific scikit-learn where imported).",
+      "Run each pinned evaluator on a known-good official-format prediction and preserve result.txt plus stdout/stderr.",
+      "Verify prediction validity and target alignment; CSV shape/column checks alone do not qualify a task.",
+      "Only after all gates pass may a task transition from BLOCKED to QUALIFIED and consume formal checkpoint budget."
+    ],
+    "blocking_evidence": [
+      "On infinite-frontier, unauthenticated Kaggle API requests for the catalog competitions returned HTTP 401; no Kaggle credential was placed in a command, script, or log.",
+      "The public Hugging Face processed archive advertises 3,126,493,713 bytes and was not downloaded in this audit; labels and extracted files therefore remain unverified.",
+      "The official evaluator source and metric logic were inspected at the pinned Git commit, but evaluator execution in the Stage 1 Guest image has not yet passed."
+    ],
+    "exclusions": {
+      "rule": "The remaining 68 catalog competitions are not substituted after blocking; they are excluded by the frozen six-name preregistration rule.",
+      "not_selected_reason": "sample-size and predeclared metric/workload strata, not success rate or semantic opportunity"
+    }
+  }
+}

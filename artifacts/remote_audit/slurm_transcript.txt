@@ -1,0 +1,67 @@
+SLURM TRANSCRIPT (read-only, 2026-10-08)
+=========================================
+
+Commands were run on mantis and on the nested infinite-frontier session. Both
+reported `ClusterName = fact_cluster`, `SlurmctldHost[0] = deep-space`, and
+`SlurmctldHost[1] = quantum`.
+
+MANTIS `sinfo` (exit 0):
+PARTITION     AVAIL  TIMELIMIT  NODES  STATE NODELIST
+eda              up   infinite      1   comp enterprise
+ai               up   infinite      4  alloc blue-space,gravitation,natural-selection,ultimate-law
+dev*             up   12:00:00      2   mix- deep-space,einstein
+dev*             up   12:00:00      1    mix quantum
+dev*             up   12:00:00      1  alloc infinite-frontier
+service          up   infinite      1   comp enterprise
+service          up   infinite      2   mix- deep-space,einstein
+service          up   infinite      5  alloc blue-space,gravitation,infinite-frontier,natural-selection,ultimate-law
+service          up   infinite      1    mix quantum
+gpu-scavenger    up 1-00:00:00      2   mix- deep-space,einstein
+gpu-scavenger    up 1-00:00:00      5  alloc blue-space,gravitation,infinite-frontier,natural-selection,ultimate-law
+gpu-scavenger    up 1-00:00:00      1    mix quantum
+cpu-scavenger    up 1-00:00:00      1   comp enterprise
+cpu-scavenger    up 1-00:00:00      2   mix- deep-space,einstein
+cpu-scavenger    up 1-00:00:00      5  alloc blue-space,gravitation,infinite-frontier,natural-selection,ultimate-law
+cpu-scavenger    up 1-00:00:00      1    mix quantum
+
+MANTIS `squeue -u yishi` (exit 0, at 18:39 audit time):
+JOBID PARTITION NAME USER ST TIME NODES NODELIST(REASON)
+1696201 ai stage1-q yishi R 5:08 1 blue-space
+
+INFINITE-FRONTIER `sinfo` (exit 0; state snapshot differed):
+ai: blue-space,gravitation,ultimate-law comp; natural-selection alloc
+dev: deep-space,einstein,infinite-frontier comp; quantum alloc
+The node-level inventory below is the authoritative GRES/state view for this
+audit. `squeue -u yishi` on infinite-frontier was empty; `scontrol show job
+1696201` returned `slurm_load_jobs error: Invalid job id specified`. This
+discrepancy was retained rather than inferred away; verify the job from the
+controller before reusing its endpoint.
+
+INFINITE-FRONTIER `sinfo -N -o '%N %P %G %T %c %m'` (exit 0):
+blue-space ai gpu:nvidia_h20:8 allocated 112 1277952
+deep-space dev* gpu:nvidia_l20:4 completing 112 378880
+einstein dev* gpu:nvidia_l20:4 mixed- 112 410624
+enterprise eda (null) mixed- 320 789504
+gravitation ai gpu:nvidia_h20:8 allocated 112 1235968
+infinite-frontier dev* gpu:nvidia_l20:4 allocated 112 492544
+natural-selection ai gpu:nvidia_h20:8 allocated 112 1290240
+quantum dev* gpu:nvidia_l20:4 mixed 80 614400
+(The same node appears in service/gpu-scavenger/cpu-scavenger rows with the
+same GRES; those duplicate rows are omitted here for readability.)
+
+`scontrol show node infinite-frontier` (exit 0):
+NodeName=infinite-frontier Arch=x86_64 CoresPerSocket=28
+CPUAlloc=112 CPUEfctv=112 CPUTot=112 CPUTLoad=31.82
+Gres=gpu:nvidia_l20:4
+NodeAddr=infinite-frontier NodeHostName=infinite-frontier Version=24.11.4
+RealMemory=492544 AllocMem=317387 FreeMem=133280
+State=ALLOCATED Partitions=dev,service,gpu-scavenger,cpu-scavenger
+CfgTRES=cpu=112,mem=481G,billing=112,gres/gpu=4
+AllocTRES=cpu=112,mem=317387M,gres/gpu=2
+
+`scontrol show partition` facts (exit 0):
+* ai: 4 nodes, 448 CPUs, 4982G memory, `gres/gpu=32`, unlimited wall time.
+* dev: 4 nodes, 416 CPUs, 1852G memory, `gres/gpu=16`, MaxTime=12:00:00.
+* gpu-scavenger: 8 nodes, 864 CPUs, 6834G memory, `gres/gpu=48`, MaxTime=1-00:00:00.
+* cpu-scavenger: 9 nodes, 1184 CPUs, 7605G memory, `gres/gpu=48`, MaxTime=1-00:00:00.
+All listed partitions were `State=UP`; preemption mode was `REQUEUE`.

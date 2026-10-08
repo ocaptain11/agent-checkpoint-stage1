@@ -80,6 +80,19 @@ Runtime artifacts belong under `runs/`; source code, manifests, and validators
 remain reviewable and deterministic. Each run must contain the manifests and
 raw logs listed in `STAGE1_PROTOCOL.md`, with hashes for snapshots and disks.
 
+## Cluster storage contract
+
+The cluster storage policy is a hard constraint, documented in
+[`infrastructure/storage/STORAGE_POLICY.md`](infrastructure/storage/STORAGE_POLICY.md).
+HOME holds only this project’s source and small indexes; regenerable model,
+environment, package, and compiler caches live in SCRATCH; retained raw
+evidence is published through staged SHA-256/size verification into FACT_DATA.
+The read-only audit and publisher are covered by the storage-tool tests. The
+current remote audit/index is recorded in
+[`reports/STAGE1_STORAGE_MANIFEST_20261008.json`](reports/STAGE1_STORAGE_MANIFEST_20261008.json);
+it explicitly leaves legacy results untouched and records quota as UNKNOWN
+when the cluster quota interfaces cannot report a user limit.
+
 ## Evidence gates
 
 | Gate | Required evidence | Status at scaffold initialization |
@@ -110,4 +123,3 @@ separate from semantic negative results.
 Do not interpret this scaffold as an experiment completion claim. The first
 scientific result may legitimately be that no qualified candidate or no
 additional reduction was observed.
-

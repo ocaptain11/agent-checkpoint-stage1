@@ -1,0 +1,102 @@
+{
+  "run_id": "pilot-REPLACE_ME",
+  "real_guest_required": true,
+  "official_evaluator": true,
+  "manual_replay": false,
+  "guest_fallback": false,
+  "gold_patch_injected": false,
+  "command_timeout_seconds": 3600,
+  "vllm": {
+    "start_command": [
+      "sbatch",
+      "infrastructure/slurm/start_vllm.sbatch"
+    ],
+    "health_url": "http://MODEL_NODE:8000/health",
+    "health_timeout_seconds": 300,
+    "cwd": "/fact_home/yishi/agent-checkpoint-stage1"
+  },
+  "firecracker": {
+    "start_command": [
+      "infrastructure/firecracker/start_guest.sh",
+      "--socket",
+      "runs/pilot/pilot-REPLACE_ME/firecracker-original.sock",
+      "--pid-file",
+      "runs/pilot/pilot-REPLACE_ME/firecracker-original.pid"
+    ],
+    "socket_path": "runs/pilot/pilot-REPLACE_ME/firecracker-original.sock",
+    "kvm_path": "/dev/kvm",
+    "require_kvm": true,
+    "cwd": "/fact_home/yishi/agent-checkpoint-stage1"
+  },
+  "openhands": {
+    "run_command": [
+      "infrastructure/openhands/run_headless_guest.sh",
+      "--task-id",
+      "REPLACE_ME_SWEBENCH_TASK_ID",
+      "--until-checkpoint"
+    ],
+    "action_log": "runs/pilot/pilot-REPLACE_ME/openhands_pre_checkpoint_actions.json",
+    "cwd": "/fact_home/yishi/agent-checkpoint-stage1"
+  },
+  "checkpoint": {
+    "command": [
+      "infrastructure/firecracker/create_full_snapshot.sh",
+      "--socket",
+      "runs/pilot/pilot-REPLACE_ME/firecracker-original.sock",
+      "--output-dir",
+      "runs/pilot/pilot-REPLACE_ME/checkpoint",
+      "--disk-state",
+      "runs/pilot/pilot-REPLACE_ME/guest-disk.img"
+    ],
+    "memory_snap": "runs/pilot/pilot-REPLACE_ME/checkpoint/memory.snap",
+    "vmstate_snap": "runs/pilot/pilot-REPLACE_ME/checkpoint/vmstate.snap",
+    "disk_state": "runs/pilot/pilot-REPLACE_ME/checkpoint/disk.img",
+    "host_agent_prefix": "runs/pilot/pilot-REPLACE_ME/checkpoint/host_agent_prefix.json",
+    "checkpoint_id": "pilot-REPLACE_ME-cp0",
+    "cwd": "/fact_home/yishi/agent-checkpoint-stage1"
+  },
+  "terminate_original_vmm_command": [
+    "infrastructure/firecracker/terminate_vmm.sh",
+    "--pid-file",
+    "runs/pilot/pilot-REPLACE_ME/firecracker-original.pid"
+  ],
+  "require_explicit_vmm_termination": true,
+  "restore": {
+    "command": [
+      "infrastructure/firecracker/restore_full_snapshot.sh",
+      "--checkpoint-dir",
+      "runs/pilot/pilot-REPLACE_ME/checkpoint",
+      "--socket",
+      "runs/pilot/pilot-REPLACE_ME/firecracker-restored.sock",
+      "--new-pid-file",
+      "runs/pilot/pilot-REPLACE_ME/firecracker-restored.pid",
+      "--evidence-file",
+      "runs/pilot/pilot-REPLACE_ME/restore_evidence.json"
+    ],
+    "new_vmm_pid_file": "runs/pilot/pilot-REPLACE_ME/firecracker-restored.pid",
+    "evidence_file": "runs/pilot/pilot-REPLACE_ME/restore_evidence.json",
+    "cwd": "/fact_home/yishi/agent-checkpoint-stage1"
+  },
+  "continuation": {
+    "run_command": [
+      "infrastructure/openhands/resume_headless_guest.sh",
+      "--prefix",
+      "runs/pilot/pilot-REPLACE_ME/checkpoint/host_agent_prefix.json",
+      "--socket",
+      "runs/pilot/pilot-REPLACE_ME/firecracker-restored.sock"
+    ],
+    "action_log": "runs/pilot/pilot-REPLACE_ME/openhands_post_restore_actions.json",
+    "cwd": "/fact_home/yishi/agent-checkpoint-stage1"
+  },
+  "evaluator": {
+    "command": [
+      "infrastructure/openhands/run_official_evaluator.sh",
+      "--task-id",
+      "REPLACE_ME_SWEBENCH_TASK_ID",
+      "--agent-output",
+      "runs/pilot/pilot-REPLACE_ME/agent_output"
+    ],
+    "result_file": "runs/pilot/pilot-REPLACE_ME/evaluator_result.json",
+    "cwd": "/fact_home/yishi/agent-checkpoint-stage1"
+  }
+}

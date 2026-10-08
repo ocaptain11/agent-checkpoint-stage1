@@ -1,0 +1,106 @@
+{
+  "mode": "plan",
+  "run_id": "pilot-REPLACE_ME",
+  "steps": [
+    {
+      "command": [
+        "sbatch",
+        "infrastructure/slurm/start_vllm.sbatch"
+      ],
+      "name": "vllm.start_command",
+      "unresolved": []
+    },
+    {
+      "command": [
+        "infrastructure/firecracker/start_guest.sh",
+        "--socket",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-original.sock",
+        "--pid-file",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-original.pid"
+      ],
+      "name": "firecracker.start_command",
+      "unresolved": [
+        "runs/pilot/pilot-REPLACE_ME/firecracker-original.sock",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-original.pid"
+      ]
+    },
+    {
+      "command": [
+        "infrastructure/openhands/run_headless_guest.sh",
+        "--task-id",
+        "REPLACE_ME_SWEBENCH_TASK_ID",
+        "--until-checkpoint"
+      ],
+      "name": "openhands.run_command",
+      "unresolved": [
+        "REPLACE_ME_SWEBENCH_TASK_ID"
+      ]
+    },
+    {
+      "command": [
+        "infrastructure/firecracker/create_full_snapshot.sh",
+        "--socket",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-original.sock",
+        "--output-dir",
+        "runs/pilot/pilot-REPLACE_ME/checkpoint",
+        "--disk-state",
+        "runs/pilot/pilot-REPLACE_ME/guest-disk.img"
+      ],
+      "name": "checkpoint.command",
+      "unresolved": [
+        "runs/pilot/pilot-REPLACE_ME/firecracker-original.sock",
+        "runs/pilot/pilot-REPLACE_ME/checkpoint",
+        "runs/pilot/pilot-REPLACE_ME/guest-disk.img"
+      ]
+    },
+    {
+      "command": [
+        "infrastructure/firecracker/restore_full_snapshot.sh",
+        "--checkpoint-dir",
+        "runs/pilot/pilot-REPLACE_ME/checkpoint",
+        "--socket",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-restored.sock",
+        "--new-pid-file",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-restored.pid",
+        "--evidence-file",
+        "runs/pilot/pilot-REPLACE_ME/restore_evidence.json"
+      ],
+      "name": "restore.command",
+      "unresolved": [
+        "runs/pilot/pilot-REPLACE_ME/checkpoint",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-restored.sock",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-restored.pid",
+        "runs/pilot/pilot-REPLACE_ME/restore_evidence.json"
+      ]
+    },
+    {
+      "command": [
+        "infrastructure/openhands/resume_headless_guest.sh",
+        "--prefix",
+        "runs/pilot/pilot-REPLACE_ME/checkpoint/host_agent_prefix.json",
+        "--socket",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-restored.sock"
+      ],
+      "name": "continuation.run_command",
+      "unresolved": [
+        "runs/pilot/pilot-REPLACE_ME/checkpoint/host_agent_prefix.json",
+        "runs/pilot/pilot-REPLACE_ME/firecracker-restored.sock"
+      ]
+    },
+    {
+      "command": [
+        "infrastructure/openhands/run_official_evaluator.sh",
+        "--task-id",
+        "REPLACE_ME_SWEBENCH_TASK_ID",
+        "--agent-output",
+        "runs/pilot/pilot-REPLACE_ME/agent_output"
+      ],
+      "name": "evaluator.command",
+      "unresolved": [
+        "REPLACE_ME_SWEBENCH_TASK_ID",
+        "runs/pilot/pilot-REPLACE_ME/agent_output"
+      ]
+    }
+  ],
+  "warning": "No command was executed; this cannot establish PILOT_PASS."
+}

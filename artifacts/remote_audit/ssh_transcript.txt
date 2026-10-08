@@ -1,0 +1,71 @@
+REMOTE SSH AUDIT TRANSCRIPT (2026-10-08 Asia/Shanghai)
+========================================================
+
+Credential handling: password was entered interactively and is not recorded.
+
+[local command]
+ssh -G factlab-cf
+[observed relevant output]
+user codexsandboxoffline
+hostname factlab-cf
+port 22
+passwordauthentication yes
+kbdinteractiveauthentication yes
+identityfile ~/.ssh/id_rsa
+identityfile ~/.ssh/id_ecdsa
+identityfile ~/.ssh/id_ed25519
+
+[local command, sandboxed attempt]
+ssh -o ConnectTimeout=15 -o NumberOfPasswordPrompts=1 \
+  -o UserKnownHostsFile=artifacts/remote_audit/known_hosts \
+  -o StrictHostKeyChecking=accept-new yishi@factlab-cf \
+  "hostname; whoami; pwd; echo REMOTE_OK"
+[exit]
+1
+[stderr]
+ssh: Could not resolve hostname factlab-cf: (sandbox DNS/network restriction)
+
+[local command, approved external SSH path]
+ssh -o ConnectTimeout=15 -o NumberOfPasswordPrompts=1 \
+  -o UserKnownHostsFile=artifacts/remote_audit/known_hosts \
+  -o StrictHostKeyChecking=accept-new yishi@factlab-cf
+[interactive remote output]
+Warning: Permanently added 'ssh.fact-lab.work/mantis' (ED25519) to the list of known hosts.
+yishi@ssh.fact-lab.work/mantis's password:
+Last login: Thu Oct  8 18:09:44 2026 from ::1
+[yishi@mantis]~%
+
+[on authenticated first hop]
+hostname
+mantis
+whoami
+yishi
+pwd
+/fact_home/yishi
+echo REMOTE_OK
+REMOTE_OK
+
+[nested command from mantis]
+ssh -o ConnectTimeout=15 -o NumberOfPasswordPrompts=1 \
+  -o UserKnownHostsFile=/fact_home/yishi/.ssh/known_hosts \
+  -o StrictHostKeyChecking=accept-new infinite-frontier
+[interactive remote output]
+Last login: Thu Oct  8 18:10:04 2026 from 10.115.12.10
+[yishi@infinite-frontier]~%
+
+[infinite-frontier identity]
+hostname -> infinite-frontier
+whoami -> yishi
+pwd -> /fact_home/yishi
+uname -a -> Linux infinite-frontier 5.14.0-687.31.1.el9_8.x86_64 #1 SMP PREEMPT_DYNAMIC Wed Jul 29 13:22:17 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+
+[path checks on both hosts]
+/fact_home/yishi                         drwx------ yishi domain users (exists)
+/fact_home/yishi/agent-checkpoint        drwxr-xr-x yishi domain users (exists; old project)
+/fact_home/yishi/agent-checkpoint-stage1 drwxr-xr-x yishi domain users (exists; new project)
+
+[new repo read-only status observed on infinite-frontier]
+## No commits yet on main
+?? infrastructure/
+?? runs/
+Top-level .git files present; no remote files were changed by this audit.

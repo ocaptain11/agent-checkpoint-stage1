@@ -1,0 +1,53 @@
+{
+  "schema_version": "dsbench-source-verification-v1",
+  "verified_at": "2026-10-08",
+  "source": {
+    "repository": "https://github.com/LiqiangJing/DSBench",
+    "commit": "ba786096137a5108af11c016ad3f09cdb97beefd",
+    "catalog": "data_modeling/data.json",
+    "catalog_sha256": "3b4e70456096d12472115f3d8faabef6b7f9c89c82d0a792a3ed7b8ba02d5596",
+    "catalog_entries": 74,
+    "mirror": "https://huggingface.co/datasets/liqiang888/DSBench",
+    "mirror_commit": "1196d6553ec200e1262841efc89cda5954ffe89f"
+  },
+  "tasks": [
+    {"name": "titanic", "kind": "tabular classification", "target": "Survived", "metric": "accuracy", "evaluator_source": "data_modeling/evaluation/titanic_eval.py"},
+    {"name": "bike-sharing-demand", "kind": "tabular regression", "target": "count", "metric": "RMSLE", "evaluator_source": "data_modeling/evaluation/bike-sharing-demand_eval.py"},
+    {"name": "commonlitreadabilityprize", "kind": "text/tabular regression", "target": "target", "metric": "RMSE", "evaluator_source": "data_modeling/evaluation/commonlitreadabilityprize_eval.py"},
+    {"name": "liverpool-ion-switching", "kind": "time-series classification", "target": "open_channels", "metric": "macro-F1", "evaluator_source": "data_modeling/evaluation/liverpool-ion-switching_eval.py"},
+    {"name": "spaceship-titanic", "kind": "tabular classification", "target": "Transported", "metric": "accuracy", "evaluator_source": "data_modeling/evaluation/spaceship-titanic_eval.py"},
+    {"name": "ventilator-pressure-prediction", "kind": "time-series regression", "target": "pressure", "metric": "MAE", "evaluator_source": "data_modeling/evaluation/ventilator-pressure-prediction_eval.py"}
+  ],
+  "evaluator_source_status": "SOURCE_VERIFIED_NOT_EXECUTED",
+  "evaluator_contract": {
+    "arguments": ["--path", "--name", "--answer_file", "--predict_file", "--value"],
+    "result_file": "<path>/<name>/result.txt",
+    "source_revision_is_pinned": true,
+    "metric_logic_checked_against_source": true
+  },
+  "data_and_label_status": "BLOCKED",
+  "observations": [
+    {
+      "check": "processed_archive_metadata",
+      "url": "https://huggingface.co/datasets/liqiang888/DSBench/resolve/1196d6553ec200e1262841efc89cda5954ffe89f/data_modeling/data.zip",
+      "http_status": 200,
+      "advertised_size_bytes": 3126493713,
+      "x_linked_etag": "bed0c7b202389597aadbbc1f8769f459119c1a662c3e11905c4ae05825876087",
+      "result": "metadata_seen; archive not downloaded or extracted during source audit"
+    },
+    {
+      "check": "kaggle_api_data_list",
+      "endpoint_pattern": "https://www.kaggle.com/api/v1/competitions/data/list/<competition>",
+      "competitions_probed": ["titanic", "bike-sharing-demand", "commonlitreadabilityprize", "liverpool-ion-switching", "spaceship-titanic", "ventilator-pressure-prediction"],
+      "http_status": 401,
+      "response": "{\"code\":401,\"message\":\"Unauthenticated\"}",
+      "result": "no credential was written to command line, script, or artifact; data and labels remain unverified"
+    },
+    {
+      "check": "guest_dependency_and_evaluator_smoke",
+      "result": "NOT_RUN",
+      "reason": "the formal Guest image and exact answer/prediction files are not yet qualified"
+    }
+  ],
+  "decision": "Do not admit any DSBench task to formal checkpoint collection until data, labels, Guest dependencies, prediction validity, and official evaluator execution are independently verified. Do not replace blocked names."
+}

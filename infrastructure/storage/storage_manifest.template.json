@@ -1,0 +1,46 @@
+{
+  "schema_version": "stage1-storage-manifest-v1",
+  "project": "agent-checkpoint-stage1",
+  "generated_at_utc": "2026-10-08T00:00:00Z",
+  "storage_roots": {
+    "HOME": {
+      "path": "/fact_home/USER/agent-checkpoint-stage1",
+      "purpose": "source, configuration, small manifests and reports"
+    },
+    "FACT_DATA": {
+      "path": "/fact_data/USER/agent-checkpoint-stage1",
+      "purpose": "authoritative retained research evidence"
+    },
+    "SCRATCH": {
+      "path": "/scratch/USER/agent-checkpoint-stage1",
+      "purpose": "regenerable environments, caches and working files"
+    }
+  },
+  "records": [
+    {
+      "artifact_id": "replace-with-stable-id",
+      "storage_class": "SCRATCH",
+      "path": "/scratch/USER/agent-checkpoint-stage1/replace-me",
+      "kind": "environment",
+      "bytes": null,
+      "sha256": null,
+      "tree_sha256": null,
+      "config_hash": null,
+      "regenerable": true,
+      "rebuild_steps": ["replace with exact locked installation command"],
+      "user": "USER",
+      "node": null,
+      "job_id": null,
+      "created_at_utc": null,
+      "versions": {},
+      "persistence_status": "NOT_REQUIRED",
+      "verification": {
+        "method": "SHA-256 plus byte count",
+        "status": "NOT_RUN",
+        "verified_at_utc": null
+      },
+      "failure": null,
+      "notes": "Replace this example; do not record an install as compatibility success."
+    }
+  ]
+}

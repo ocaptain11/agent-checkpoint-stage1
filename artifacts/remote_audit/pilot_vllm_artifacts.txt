@@ -1,0 +1,40 @@
+EXISTING PILOT vLLM ARTIFACTS (read-only copies)
+=================================================
+
+Source: /fact_home/yishi/agent-checkpoint-stage1/runs/pilot/vllm/
+
+job-1696201.manifest.txt:
+job_id=1696201
+partition=ai
+node=blue-space
+start_utc=2026-10-08T18:34:29+08:00
+cuda_visible_devices=0
+NVIDIA H20, 97871 MiB, 97349 MiB, 610.43.02
+Python 3.9.25
+WARNING: Package(s) not found: torch, transformers, vllm
+end_utc=2026-10-08T18:40:39+08:00 exit_code=137
+
+retry-1696201.md (verbatim content, with line wrapping normalized):
+# vLLM retry rationale
+
+Job 1696201 loaded the fixed Qwen/Qwen3-Coder-30B-A3B-Instruct weights and
+parser on an H20 but failed during vLLM 0.8.3 V1 engine warm-up. The raw error
+is retained in `slurm-1696201.out`: TorchDynamo constant-fold failure
+(`NoneType` not subscriptable) in the Transformers-backed Qwen3 MoE attention
+path. This is an infrastructure/model-serving failure, not a semantic mutation
+result.
+
+Minimal engineering retry: preserve model, weights, vLLM version, parser, seed,
+endpoint, and Slurm partition; disable TorchDynamo/graph compilation with
+`--enforce-eager` and reduce max context to 8192 for a pilot smoke check. If
+this fails, mark G0 `INVALID_INFRA` and retain the full logs.
+
+Job 1696352 preserved all fixed settings and added `--enforce-eager`, but failed
+with the same vLLM 0.8.3 Transformers-backed Qwen3 MoE incompatibility
+(`attention_instances` is `None`) during warm-up. A second minimal compatibility
+attempt will select the legacy vLLM engine via `VLLM_USE_V1=0`; model, weights,
+parser, seed, and Slurm allocation remain unchanged.
+
+Interpretation: these jobs cannot be counted as a Pilot PASS or semantic
+negative. They are infrastructure/model-serving failures and must remain in
+the failure log until a fixed-settings Qwen service responds successfully.

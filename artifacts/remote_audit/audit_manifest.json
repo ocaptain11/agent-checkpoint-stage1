@@ -1,0 +1,47 @@
+{
+  "audit_date": "2026-10-08",
+  "timezone": "Asia/Shanghai",
+  "user": "yishi",
+  "ssh_path": ["factlab-cf", "mantis", "infinite-frontier"],
+  "hosts": {
+    "mantis": {
+      "hostname": "mantis",
+      "home": "/fact_home/yishi",
+      "cpu_count": 16,
+      "memory_total": "125Gi",
+      "gpu_visible": false,
+      "kvm": {"present": true, "mode": "0666", "modules": ["kvm_intel", "kvm"]},
+      "firecracker": {"path": "/fact_home/yishi/agent-checkpoint/firecracker-test/release-v1.17.0-x86_64/firecracker-v1.17.0-x86_64", "version": "1.17.0"}
+    },
+    "infinite-frontier": {
+      "hostname": "infinite-frontier",
+      "home": "/fact_home/yishi",
+      "cpu_count": 112,
+      "memory_total": "754Gi",
+      "gpu": {"count": 4, "model": "NVIDIA L20", "memory_mib": 46068, "driver": "610.43.02", "cuda_umd": "13.3", "nvcc_on_path": false},
+      "kvm": {"present": true, "mode": "0666", "modules": ["kvm_intel", "kvm"]},
+      "firecracker": {"path": "/fact_home/yishi/agent-checkpoint/firecracker-test/release-v1.17.0-x86_64/firecracker-v1.17.0-x86_64", "version": "1.17.0"}
+    }
+  },
+  "slurm": {
+    "cluster": "fact_cluster",
+    "controllers": ["deep-space", "quantum"],
+    "ai_gres": "gpu:nvidia_h20:8",
+    "dev_gres": "gpu:nvidia_l20:4",
+    "partitions_up": ["eda", "ai", "dev", "service", "gpu-scavenger", "cpu-scavenger"],
+    "observed_yishi_job_on_mantis": {"job_id": "1696201", "partition": "ai", "node": "blue-space", "state": "RUNNING"},
+    "infinite_frontier_job_lookup": "Invalid job id specified (retained discrepancy)"
+  },
+  "environments": {
+    "openhands": {"path": "/fact_home/yishi/.conda/envs/agent-checkpoint", "openhands_sdk": "1.34.0", "openhands_ai": "1.11.0", "agent_server": "1.34.0", "tools": "1.34.0"},
+    "vllm": {"path": "/fact_home/yishi/.conda/envs/vllm-agent-clean", "vllm": "0.8.3", "torch": "2.6.0", "transformers": "4.51.3", "numpy": "2.1.3"}
+  },
+  "pilot_serving": {
+    "job_id": "1696201",
+    "model": "Qwen/Qwen3-Coder-30B-A3B-Instruct",
+    "exit_code": 137,
+    "classification": "INVALID_INFRA",
+    "failure": "vLLM 0.8.3 Qwen3 MoE warm-up TorchDynamo/attention_instances incompatibility; package warning in manifest"
+  },
+  "evidence_files": ["ssh_transcript.txt", "slurm_transcript.txt", "runtime_transcript.txt", "pilot_vllm_artifacts.txt"]
+}

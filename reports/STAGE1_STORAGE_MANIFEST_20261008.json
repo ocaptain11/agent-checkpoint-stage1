@@ -1,0 +1,47 @@
+{
+  "schema_version": "stage1-storage-manifest-v1",
+  "project": "agent-checkpoint-stage1",
+  "generated_at": "2026-10-08",
+  "authority": {
+    "remote_host": "infinite-frontier",
+    "user": "yishi",
+    "note": "Read-only storage audit and new-run evidence index; no legacy result was moved or deleted."
+  },
+  "roots": {
+    "HOME": {"path": "/fact_home/yishi/", "purpose": "source/config/small manifests/reports", "filesystem_free_human_observed": "11T available (df -hT)", "quota": "UNKNOWN"},
+    "FACT_DATA": {"path": "/fact_data/yishi/", "purpose": "authoritative retained evidence", "filesystem_free_human_observed": "17T available (df -hT)", "quota": "UNKNOWN"},
+    "SCRATCH": {"path": "/scratch/yishi/", "purpose": "regenerable environments/model/cache/work copies", "filesystem_free_human_observed": "33T available (df -hT)", "quota": "UNKNOWN"}
+  },
+  "mounts": {
+    "HOME": {"fstype": "ceph", "options": "rw,relatime"},
+    "FACT_DATA": {"fstype": "ceph", "options": "rw,relatime"},
+    "SCRATCH": {"fstype": "ceph", "options": "rw,relatime"}
+  },
+  "legacy_home_read_only_analysis": {
+    "path": "/fact_home/yishi/agent-checkpoint",
+    "bytes_observed": 840786254848,
+    "categories": [
+      {"path": "results/experiment1", "bytes": 657676247552, "type": "checkpoint/evaluator/trajectory/research evidence", "action": "protect; no migration without approval"},
+      {"path": "firecracker-test", "bytes": 25307983872, "type": "Firecracker snapshots/rootfs/mutation evidence", "action": "protect; no migration without approval"},
+      {"path": "results/semantic_capture", "bytes": 13584962560, "type": "native capture/mapping/snapshot evidence", "action": "protect; no migration without approval"},
+      {"path": "results/provenance_framework", "bytes": 4624615936, "type": "provenance evidence", "action": "protect; no migration without approval"},
+      {"path": "docs/configs/scripts/provenance_framework", "bytes": 1160000, "type": "source/config/scripts", "action": "leave in legacy project"}
+    ],
+    "unclassified_remainder": "present; no destructive classification inferred"
+  },
+  "new_run_records": [
+    {"run_id": "1698012", "kind": "vllm_0.10.1_install", "storage": "FACT_DATA verified evidence", "status": "INVALID_INFRA", "reason": "dev job hard-timeout at 01:30:00 before READY"},
+    {"run_id": "1698646+1698710", "kind": "fixed_model_scratch_copy", "storage": "SCRATCH model + FACT_DATA manifests/logs", "status": "VALIDATED_STORAGE_COPY", "content_hash": "source and copy per-file SHA256 manifests matched", "revision": "UNRESOLVED_LOCAL_SOURCE"}
+  ],
+  "directory_tree": {
+    "HOME_project": "/fact_home/yishi/agent-checkpoint-stage1",
+    "FACT_DATA_project": "/fact_data/yishi/agent-checkpoint-stage1",
+    "SCRATCH_project": "/scratch/yishi/agent-checkpoint-stage1",
+    "SCRATCH_vllm_env": "/scratch/yishi/stage1-vllm-py39-direct0101",
+    "SCRATCH_model": "/scratch/yishi/stage1-model/Qwen3-Coder-30B-A3B-Instruct",
+    "note": "Full machine-generated tree and SHA receipts are authoritative in FACT_DATA run directories; this small index intentionally omits self-hash."
+  },
+  "forbidden_roots": ["/data", "node-local experimental SSD paths"],
+  "migration_or_cleanup": {"legacy_migrated": false, "legacy_deleted": false, "current_failed_temp_deleted": false},
+  "integrity": {"important_new_evidence_published_to_fact_data": true, "sha256_and_size_verified": true, "validator_storage_gate": "NOT_TESTED_FOR_LEGACY; required for new Pilot/Formal runs"}
+}
