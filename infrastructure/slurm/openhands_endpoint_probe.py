@@ -55,7 +55,13 @@ def main() -> int:
         result["response"] = serialized
         result["python"] = sys.version
         result["executable"] = sys.executable
-        result["sdk_version"] = importlib.metadata.version("openhands-sdk")
+        versions = {}
+        for distribution in ("openhands-sdk", "openhands-ai", "openhands-tools"):
+            try:
+                versions[distribution] = importlib.metadata.version(distribution)
+            except importlib.metadata.PackageNotFoundError:
+                continue
+        result["sdk_versions"] = versions
         result["response_text_contains_expected"] = "OPENHANDS_ENDPOINT_OK" in str(serialized)
         if not result["response_text_contains_expected"]:
             raise RuntimeError(f"OpenHands response did not contain OPENHANDS_ENDPOINT_OK: {serialized!r}")
